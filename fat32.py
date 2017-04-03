@@ -93,7 +93,7 @@ print_dec('Root Dir starts at sector: ', root_dir_first_cluster)
 
 root_dir = (520*2 + 32)*512 + 64
 print()
-print('Directory listing follows: ')
+T.insert(END, 'Directory listing follows... \n\n')
 print()
 print()
 
