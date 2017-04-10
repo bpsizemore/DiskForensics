@@ -34,19 +34,22 @@ def print_dir_entry(d, ):
     # iterate through fat entries
     fat_cluster = int.from_bytes(d[26:28], byteorder='little')
     file_start = root_dir + (fat_cluster - 2) * 512 - 64
+    print(fat_cluster)
+    while fat_cluster != 0:
+        contents = data[file_start:file_start+512]
+        i = 0
+        while i < 512 and contents[i] != 0x00:
+            i = i + 1
 
-    contents = data[file_start:file_start+512]
-    i = 0
-    while contents[i] != 0x00:
-        i = i + 1
+        T.insert(END, 'File Contents: ' + str(contents[0:i]))
 
-    T.insert(END, 'File Contents: ' + str(contents[0:i]))
+        fat_cluster = 0;
     T.insert(END, '\n\n')
     # while data[(fat_start_offset + 4 * fat_cluster + 2)] != 0xFF:
     # swap to next fat cluster num and do stuff
     # print()
 
-fat_partition = open("labsda1.img", "rb")
+fat_partition = open("usb1.img", "rb")
 
 data = fat_partition.read()
 jump_instruction = data[0:3]
@@ -103,3 +106,7 @@ while data[root_dir+x] != 0x00:
     x = x + 32;
 
 mainloop()
+
+
+
+
